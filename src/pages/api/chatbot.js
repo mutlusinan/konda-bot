@@ -2,6 +2,9 @@ import { OpenAI } from "openai";
 import questions from "../../data/konda.json";
 
 export default async function handler(req, res) {
+  if (req.method === "GET") {
+    return res.status(200).json({ model: process.env.OPENAI_MODEL });
+  }
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Only POST requests allowed" });
   }
@@ -24,11 +27,11 @@ export default async function handler(req, res) {
       model: process.env.OPENAI_MODEL,
       messages: [{ role: "user", content: prompt }],
     });
-    
+
     const responseText = completion.choices[0].message.content;
     const cleanResponse = responseText.replace(/```json|```/g, "").trim();
     console.log("completion", responseText);
-    const relevantQuestions = JSON.parse(cleanResponse );
+    const relevantQuestions = JSON.parse(cleanResponse);
 
     res.status(200).json({ relevantQuestions });
   } catch (error) {

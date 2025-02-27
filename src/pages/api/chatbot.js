@@ -18,7 +18,7 @@ export default async function handler(req, res) {
   try {
     const prompt = `
     Kullanıcının mesajı: "${message}"
-    Aşağıdaki soru başlıklarından hangileri bu mesajla alakalıdır? En alakalı en fazla 5 sonucu JSON formatında bir dizi olarak dön. Dizideki elemanların sıralaması alaka düzeyine göre olmalıdır.
+    Aşağıdaki soru başlıklarından hangileri bu mesajla alakalıdır? Alakalı en fazla 5 sonucu JSON formatında bir dizi olarak dön. Dizideki elemanların sıralaması alaka düzeyine göre olmalıdır.
     
     Soru başlıkları:
     ${JSON.stringify(questions, null, 2)}

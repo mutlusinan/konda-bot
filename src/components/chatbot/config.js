@@ -1,7 +1,7 @@
 import { createChatBotMessage } from "react-chatbot-kit";
 
 const config = {
-  botName: "BilgiBot",
+  botName: "KondaBot",
   initialMessages: [
     createChatBotMessage("Hangi konuda bilgi almak istiyorsunuz?"),
   ],

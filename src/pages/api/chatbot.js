@@ -10,12 +10,15 @@ export default async function handler(req, res) {
   }
 
   const { message } = req.body;
+  if (message.length < 1 || message.length > 30) {
+    return res.status(400).json({ error: "msg_length" });
+  }
   const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
   try {
     const prompt = `
     Kullanıcının mesajı: "${message}"
-    Aşağıdaki soru başlıklarından hangileri bu mesajla alakalıdır? Sadece en alakalı olanları JSON formatında bir dizi olarak dön. 
+    Aşağıdaki soru başlıklarından hangileri bu mesajla alakalıdır? En alakalı en fazla 5 sonucu JSON formatında bir dizi olarak dön. 
     
     Soru başlıkları:
     ${JSON.stringify(questions, null, 2)}
@@ -30,7 +33,6 @@ export default async function handler(req, res) {
 
     const responseText = completion.choices[0].message.content;
     const cleanResponse = responseText.replace(/```json|```/g, "").trim();
-    console.log("completion", responseText);
     const relevantQuestions = JSON.parse(cleanResponse);
 
     res.status(200).json({ relevantQuestions });

@@ -5,6 +5,16 @@ class ActionProvider {
   }
 
   handleUserMessage = async (message) => {
+    if (message.length < 1 || message.length > 30) {
+      const botMessage = this.createChatBotMessage(
+        "Mesajınız 1 ila 30 karakter arasında olmalıdır."
+      );
+      this.setState((prev) => ({
+        ...prev,
+        messages: [...prev.messages, botMessage],
+      }));
+      return;
+    }
     try {
       const response = await fetch("/api/chatbot", {
         method: "POST",
@@ -32,6 +42,7 @@ class ActionProvider {
         messages: [...prev.messages, botMessage],
       }));
     } catch (error) {
+      console.log("errorerror", error);
       const botMessage = this.createChatBotMessage(
         "Bir hata oluştu, lütfen tekrar deneyin."
       );
